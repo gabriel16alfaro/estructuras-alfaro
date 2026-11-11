@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estructuras Alfaro | Herrería y Soldadura</title>
+<meta name="description" content="Herrería y estructuras metálicas: techos, portones, puertas, ventanas, rejas y trabajos de soldadura a medida.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ====== COLORES Y BASE (cámbialos a tu gusto) ====== */
+  :root{
+    --bg:#15171a;
+    --bg-2:#1d2024;
+    --card:#24282d;
+    --line:#343a41;
+    --text:#e9ecef;
+    --muted:#a3abb4;
+    --accent:#ff7a1a;      /* naranja "chispa de soldadura" */
+    --accent-2:#ffb347;
+    --ok:#3ecf8e;
+    --radius:12px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:Oswald,sans-serif;letter-spacing:.5px;line-height:1.15}
+  .container{width:min(1150px,100% - 32px);margin-inline:auto}
+  section{padding:80px 0}
+  .section-title{text-align:center;margin-bottom:48px}
+  .section-title h2{font-size:clamp(1.9rem,4vw,2.6rem);text-transform:uppercase}
+  .section-title h2 span{color:var(--accent)}
+  .section-title p{color:var(--muted);max-width:620px;margin:10px auto 0}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:8px;font-weight:600;border:2px solid var(--accent);background:var(--accent);color:#1a1a1a;cursor:pointer;transition:.2s;font-size:1rem}
+  .btn:hover{background:var(--accent-2);border-color:var(--accent-2)}
+  .btn.outline{background:transparent;color:var(--text)}
+  .btn.outline:hover{background:var(--accent);color:#1a1a1a}
+
+  /* ====== NAVEGACIÓN ====== */
+  header{position:sticky;top:0;z-index:50;background:rgba(21,23,26,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{font-family:Oswald;font-size:1.45rem;font-weight:700;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+  .logo svg{width:30px;height:30px;color:var(--accent)}
+  .logo b{color:var(--accent)}
+  .nav ul{display:flex;gap:28px;list-style:none}
+  .nav ul a{color:var(--muted);font-weight:500;transition:.2s}
+  .nav ul a:hover{color:var(--accent)}
+  .menu-btn{display:none;background:none;border:0;color:var(--text);cursor:pointer}
+  @media (max-width:820px){
+    .menu-btn{display:block}
+    .nav ul{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;background:var(--bg-2);border-bottom:1px solid var(--line);display:none}
+    .nav ul.open{display:flex}
+    .nav ul a{display:block;padding:14px 16px}
+  }
+
+  /* ====== PORTADA ====== */
+  .hero{position:relative;min-height:88vh;display:flex;align-items:center;overflow:hidden;
+    background:
+      radial-gradient(circle at 80% 30%,rgba(255,122,26,.25),transparent 45%),
+      repeating-linear-gradient(135deg,#1b1e22 0 2px,transparent 2px 22px),
+      linear-gradient(180deg,#121416,#1a1d21);}
+  .hero .container{position:relative;z-index:2}
+  .hero small{color:var(--accent);font-weight:600;letter-spacing:3px;text-transform:uppercase}
+  .hero h1{font-size:clamp(2.4rem,7vw,4.6rem);text-transform:uppercase;margin:12px 0 18px;max-width:800px}
+  .hero h1 span{color:var(--accent)}
+  .hero p{color:var(--muted);font-size:1.15rem;max-width:560px;margin-bottom:32px}
+  .hero .actions{display:flex;gap:14px;flex-wrap:wrap}
+  .stats{display:flex;gap:40px;margin-top:56px;flex-wrap:wrap}
+  .stats div strong{display:block;font-family:Oswald;font-size:2.2rem;color:var(--accent)}
+  .stats div span{color:var(--muted);font-size:.9rem}
+  .sparks{position:absolute;inset:0;pointer-events:none}
+  .spark{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--accent-2);box-shadow:0 0 8px var(--accent);animation:fall linear infinite;opacity:0}
+  @keyframes fall{0%{opacity:1;transform:translate(0,0)}100%{opacity:0;transform:translate(var(--dx),260px)}}
+
+  /* ====== SERVICIOS ====== */
+  .services{background:var(--bg-2)}
+  .grid-services{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
+  .service{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;transition:.25s}
+  .service:hover{transform:translateY(-4px);border-color:var(--accent)}
+  .service .ico{width:52px;height:52px;border-radius:10px;background:rgba(255,122,26,.12);display:grid;place-items:center;color:var(--accent);margin-bottom:16px}
+  .service .ico svg{width:28px;height:28px}
+  .service h3{font-size:1.3rem;margin-bottom:8px}
+  .service p{color:var(--muted);font-size:.95rem}
+
+  /* ====== GALERÍA ====== */
+  .filters{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+  .filters button{background:var(--card);border:1px solid var(--line);color:var(--muted);padding:9px 18px;border-radius:30px;cursor:pointer;font:500 .92rem Inter;transition:.2s}
+  .filters button.active,.filters button:hover{background:var(--accent);color:#1a1a1a;border-color:var(--accent)}
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+  .work{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;cursor:pointer;background:var(--card);border:1px solid var(--line)}
+  .work img{width:100%;height:100%;object-fit:cover;transition:.4s}
+  .work:hover img{transform:scale(1.06)}
+  .work .ph{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--muted);
+    background:repeating-linear-gradient(45deg,#24282d 0 12px,#292e34 12px 24px);font-size:.85rem;text-align:center;padding:12px}
+  .work .ph svg{width:42px;height:42px;color:var(--accent);opacity:.7}
+  .work.noimg .ph{display:flex}
+  .work figcaption{position:absolute;left:0;right:0;bottom:0;padding:14px 16px;background:linear-gradient(transparent,rgba(0,0,0,.85))}
+  .work figcaption strong{display:block;font-family:Oswald;font-size:1.1rem}
+  .work figcaption span{font-size:.8rem;color:var(--accent-2);text-transform:uppercase;letter-spacing:1px}
+  .work.hide{display:none}
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+  .lightbox.open{display:flex}
+  .lightbox img{max-height:82vh;border-radius:8px}
+  .lightbox p{position:absolute;bottom:24px;left:0;right:0;text-align:center}
+  .lightbox button{position:absolute;top:16px;right:20px;background:none;border:0;color:#fff;font-size:2.4rem;cursor:pointer}
+
+  /* ====== COTIZADOR ====== */
+  .quote{background:var(--bg-2)}
+  .quote-wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:start}
+  @media (max-width:900px){.quote-wrap{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .form-grid .full{grid-column:1/-1}
+  @media (max-width:560px){.form-grid{grid-template-columns:1fr}}
+  label{display:block;font-size:.88rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+  input,select,textarea{width:100%;padding:12px 14px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:1rem Inter}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);border-color:transparent}
+  textarea{resize:vertical;min-height:100px}
+  .checks{display:flex;flex-wrap:wrap;gap:10px}
+  .checks label{display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--line);padding:8px 12px;border-radius:8px;cursor:pointer;margin:0;color:var(--text)}
+  .checks input{width:auto;accent-color:var(--accent)}
+  .estimate h3{font-size:1.4rem;margin-bottom:6px}
+  .estimate .price{font-family:Oswald;font-size:2.6rem;color:var(--accent);margin:12px 0 4px}
+  .estimate .note{font-size:.82rem;color:var(--muted)}
+  .estimate ul{list-style:none;margin:18px 0;border-top:1px solid var(--line)}
+  .estimate li{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:.93rem}
+  .estimate li span:first-child{color:var(--muted)}
+  .estimate .btn{width:100%;justify-content:center;margin-top:10px}
+  .msg-ok{display:none;margin-top:14px;padding:12px;border-radius:8px;background:rgba(62,207,142,.12);color:var(--ok);font-size:.92rem}
+
+  /* ====== CONTACTO ====== */
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;margin-bottom:28px}
+  .c-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;text-align:center;transition:.25s}
+  .c-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .c-card svg{width:38px;height:38px;color:var(--accent);margin-bottom:12px}
+  .c-card h3{font-size:1.2rem;margin-bottom:4px}
+  .c-card p{color:var(--muted);font-size:.95rem}
+  .c-links{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+  .c-links a{display:block;padding:9px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--line);color:var(--text);font-size:.92rem;word-break:break-word;transition:.2s}
+  .c-links a:hover{border-color:var(--accent);color:var(--accent)}
+  .map-hours{display:grid;grid-template-columns:2fr 1fr;gap:20px}
+  @media (max-width:820px){.map-hours{grid-template-columns:1fr}}
+  .map{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);min-height:300px}
+  .map iframe{width:100%;height:100%;min-height:300px;border:0;filter:grayscale(.4) invert(.9) hue-rotate(180deg)}
+  .hours li{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);list-style:none}
+
+  /* ====== PIE + WHATSAPP FLOTANTE ====== */
+  footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:var(--muted);font-size:.9rem}
+  .wa-float{position:fixed;right:20px;bottom:20px;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.4);z-index:60;transition:.2s}
+  .wa-float:hover{transform:scale(1.08)}
+  .wa-float svg{width:32px;height:32px;color:#fff}
+</style>
+</head>
+<body>
+
+<!-- ============ ENCABEZADO ============ -->
+<header>
+  <nav class="nav container">
+    <a href="#inicio" class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V10l7-6 7 6v11M9 21v-6h6v6"/></svg>
+      Estructuras <b>Alfaro</b>
+    </a>
+    <button class="menu-btn" aria-label="Abrir menú" onclick="document.getElementById('menu').classList.toggle('open')">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <ul id="menu">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#trabajos">Trabajos</a></li>
+      <li><a href="#cotizar">Cotizar</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ============ PORTADA ============ -->
+<section class="hero" id="inicio">
+  <div class="sparks" id="sparks"></div>
+  <div class="container">
+    <small>Herrería y estructuras metálicas</small>
+    <h1>Construimos en <span>metal</span> lo que tu proyecto necesita</h1>
+    <p>Techos, portones, puertas, ventanas, rejas y trabajos de soldadura a medida. Calidad, resistencia y cumplimiento en cada entrega.</p>
+    <div class="actions">
+      <a href="#cotizar" class="btn">Cotiza gratis</a>
+      <a href="#trabajos" class="btn outline">Ver trabajos</a>
+    </div>
+    <div class="stats">
+      <div><strong>10+</strong><span>Años de experiencia</span></div>
+      <div><strong>500+</strong><span>Trabajos realizados</span></div>
+      <div><strong>100%</strong><span>Garantía en soldadura</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICIOS ============ -->
+<section class="services" id="servicios">
+  <div class="container">
+    <div class="section-title">
+      <h2>Nuestros <span>servicios</span></h2>
+      <p>Fabricamos e instalamos todo tipo de estructuras en hierro, acero y aluminio.</p>
+    </div>
+    <div class="grid-services">
+      <div class="service">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12l10-8 10 8M4 10v10h16V10"/></svg></div>
+        <h3>Techos y tinglados</h3>
+        <p>Estructuras para techos, galpones, cocheras y tinglados con chapa o policarbonato.</p>
+      </div>
+      <div class="service">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="1"/><circle cx="15" cy="12" r="1"/></svg></div>
+        <h3>Puertas y portones</h3>
+        <p>Portones corredizos, batientes y levadizos. Opción de motorización.</p>
+      </div>
+      <div class="service">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18"/><path d="M12 3v18M3 12h18"/></svg></div>
+        <h3>Ventanas</h3>
+        <p>Ventanas de hierro y aluminio, marcos, protecciones y mosquiteros.</p>
+      </div>
+      <div class="service">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v16M9 4v16M14 4v16M19 4v16M2 8h20M2 16h20"/></svg></div>
+        <h3>Rejas y cercos</h3>
+        <p>Rejas de seguridad, barandas, cercos perimetrales y protecciones.</p>
+      </div>
+      <div class="service">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 20h12M8 20V9l4-5 4 5v11M8 13h8"/></svg></div>
+        <h3>Escaleras y estructuras</h3>
+        <p>Escaleras, entrepisos, vigas, columnas y estructuras a medida.</p>
+      </div>
+      <div class="service">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></div>
+        <h3>Soldadura y reparación</h3>
+        <p>Soldadura eléctrica, MIG y autógena. Reparaciones a domicilio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALERÍA DE TRABAJOS ============
+     Para poner tus fotos: crea una carpeta "fotos" junto a este archivo
+     y guarda las imágenes con los nombres de cada src (o cambia los nombres).
+     Para agregar más trabajos, copia un bloque <figure> y cambia data-cat,
+     el src y el texto. Categorías: techos, puertas, ventanas, rejas, otros. -->
+<section id="trabajos">
+  <div class="container">
+    <div class="section-title">
+      <h2>Nuestros <span>trabajos</span></h2>
+      <p>Algunos de los proyectos que hemos realizado para nuestros clientes.</p>
+    </div>
+    <div class="filters">
+      <button class="active" data-filter="todos">Todos</button>
+      <button data-filter="techos">Techos</button>
+      <button data-filter="puertas">Puertas y portones</button>
+      <button data-filter="ventanas">Ventanas</button>
+      <button data-filter="rejas">Rejas</button>
+      <button data-filter="otros">Otros</button>
+    </div>
+    <div class="gallery" id="gallery">
+      <figure class="work" data-cat="techos"><img src="fotos/techo-1.jpg" alt="Tinglado para cochera"><figcaption><span>Techos</span><strong>Tinglado para cochera</strong></figcaption></figure>
+      <figure class="work" data-cat="techos"><img src="fotos/techo-2.jpg" alt="Estructura para galpón"><figcaption><span>Techos</span><strong>Estructura para galpón</strong></figcaption></figure>
+      <figure class="work" data-cat="puertas"><img src="fotos/porton-1.jpg" alt="Portón corredizo"><figcaption><span>Puertas y portones</span><strong>Portón corredizo</strong></figcaption></figure>
+      <figure class="work" data-cat="puertas"><img src="fotos/puerta-1.jpg" alt="Puerta de seguridad"><figcaption><span>Puertas y portones</span><strong>Puerta de seguridad</strong></figcaption></figure>
+      <figure class="work" data-cat="ventanas"><img src="fotos/ventana-1.jpg" alt="Ventanas de hierro"><figcaption><span>Ventanas</span><strong>Ventanas de hierro</strong></figcaption></figure>
+      <figure class="work" data-cat="rejas"><img src="fotos/reja-1.jpg" alt="Rejas de protección"><figcaption><span>Rejas</span><strong>Rejas de protección</strong></figcaption></figure>
+      <figure class="work" data-cat="rejas"><img src="fotos/reja-2.jpg" alt="Cerco perimetral"><figcaption><span>Rejas</span><strong>Cerco perimetral</strong></figcaption></figure>
+      <figure class="work" data-cat="otros"><img src="fotos/escalera-1.jpg" alt="Escalera metálica"><figcaption><span>Otros</span><strong>Escalera metálica</strong></figcaption></figure>
+      <figure class="work" data-cat="otros"><img src="fotos/baranda-1.jpg" alt="Baranda para balcón"><figcaption><span>Otros</span><strong>Baranda para balcón</strong></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox">
+  <button aria-label="Cerrar" onclick="closeLightbox()">&times;</button>
+  <img id="lbImg" alt="">
+  <p id="lbTxt"></p>
+</div>
+
+<!-- ============ COTIZADOR ============ -->
+<section class="quote" id="cotizar">
+  <div class="container">
+    <div class="section-title">
+      <h2>Cotiza tu <span>presupuesto</span></h2>
+      <p>Completa el formulario, obtén un precio estimado al instante y envíanos tu solicitud por WhatsApp o correo.</p>
+    </div>
+    <div class="quote-wrap">
+      <form class="panel" id="quoteForm" onsubmit="return false">
+        <div class="form-grid">
+          <div>
+            <label for="nombre">Nombre completo *</label>
+            <input id="nombre" required placeholder="Tu nombre">
+          </div>
+          <div>
+            <label for="telefono">Teléfono / WhatsApp *</label>
+            <input id="telefono" type="tel" required placeholder="Ej: 999 123 456">
+          </div>
+          <div class="full">
+            <label for="correo">Correo electrónico</label>
+            <input id="correo" type="email" placeholder="tucorreo@ejemplo.com">
+          </div>
+          <div>
+            <label for="tipo">Tipo de trabajo *</label>
+            <select id="tipo"></select>
+          </div>
+          <div>
+            <label for="material">Material</label>
+            <select id="material">
+              <option value="1">Hierro / fierro</option>
+              <option value="1.35">Acero galvanizado</option>
+              <option value="1.6">Aluminio</option>
+              <option value="2.2">Acero inoxidable</option>
+            </select>
+          </div>
+          <div>
+            <label for="ancho">Ancho (metros)</label>
+            <input id="ancho" type="number" min="0" step="0.1" value="3">
+          </div>
+          <div>
+            <label for="alto">Alto / largo (metros)</label>
+            <input id="alto" type="number" min="0" step="0.1" value="2">
+          </div>
+          <div>
+            <label for="cantidad">Cantidad</label>
+            <input id="cantidad" type="number" min="1" value="1">
+          </div>
+          <div>
+            <label for="ubicacion">Distrito / zona</label>
+            <input id="ubicacion" placeholder="¿Dónde se instala?">
+          </div>
+          <div class="full">
+            <label>Extras</label>
+            <div class="checks">
+              <label><input type="checkbox" id="pintura"> Pintura anticorrosiva</label>
+              <label><input type="checkbox" id="instalacion" checked> Instalación</label>
+              <label><input type="checkbox" id="diseno"> Diseño decorativo</label>
+            </div>
+          </div>
+          <div class="full">
+            <label for="detalle">Describe tu proyecto</label>
+            <textarea id="detalle" placeholder="Cuéntanos detalles: diseño, color, si ya tienes medidas exactas, plazos, etc."></textarea>
+          </div>
+        </div>
+      </form>
+
+      <aside class="panel estimate">
+        <h3>Presupuesto estimado</h3>
+        <p class="note">Valor referencial. El precio final se confirma tras la visita técnica gratuita.</p>
+        <div class="price" id="precio">S/ 0</div>
+        <ul>
+          <li><span>Trabajo</span><span id="rTipo">—</span></li>
+          <li><span>Medida total</span><span id="rArea">—</span></li>
+          <li><span>Material</span><span id="rMat">—</span></li>
+          <li><span>Extras</span><span id="rExtras">—</span></li>
+        </ul>
+        <button class="btn" onclick="enviar('whatsapp')">Enviar por WhatsApp</button>
+        <button class="btn outline" onclick="enviar('correo')">Enviar por correo</button>
+        <div class="msg-ok" id="msgOk"></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACTO ============ -->
+<section id="contacto">
+  <div class="container">
+    <div class="section-title">
+      <h2>Contáct<span>anos</span></h2>
+      <p>Escríbenos o llámanos, respondemos rápido. Visita técnica y presupuesto sin costo.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="c-card">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
+        <h3>WhatsApp</h3>
+        <p>Escríbenos al que prefieras</p>
+        <div class="c-links" id="waList"></div>
+      </div>
+      <div class="c-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 1.9.7 2.8a2 2 0 01-.5 2.1L8 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c.9.3 1.8.6 2.8.7a2 2 0 011.7 2z"/></svg>
+        <h3>Teléfono</h3>
+        <p>Llámanos directamente</p>
+        <div class="c-links" id="telList"></div>
+      </div>
+      <div class="c-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+        <h3>Correo</h3>
+        <p>Envíanos tus planos o consultas</p>
+        <div class="c-links" id="mailList"></div>
+      </div>
+      <div class="c-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        <h3>Redes sociales</h3>
+        <p>Mira más de nuestros trabajos</p>
+        <div class="c-links" id="redesList"></div>
+      </div>
+    </div>
+    <div class="map-hours">
+      <div class="map">
+        <!-- Reemplaza la dirección en "q=" por la de tu taller -->
+        <iframe loading="lazy" title="Ubicación del taller" src="https://maps.google.com/maps?q=Plaza%20de%20Armas%20Lima&z=15&output=embed"></iframe>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:6px">Horario de atención</h3>
+        <p style="color:var(--muted);margin-bottom:12px" id="dirTxt"></p>
+        <ul class="hours">
+          <li><span>Lunes a viernes</span><span>8:00 – 18:00</span></li>
+          <li><span>Sábados</span><span>8:00 – 13:00</span></li>
+          <li><span>Domingos</span><span>Cerrado</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">© <span id="year"></span> Estructuras Alfaro — Estructuras metálicas y soldadura. Todos los derechos reservados.</div>
+</footer>
+
+<a class="wa-float" id="waFloat" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
+</a>
+
+<script>
+/* =====================================================
+   CONFIGURACIÓN : Datos de la empresa y precios base de cada trabajo
+   ===================================================== */
+const EMPRESA =  {
+  // WhatsApp: código de país + número, SIN + ni espacios. El PRIMERO es el principal
+  // (lo usan el botón verde flotante y el botón "Enviar por WhatsApp" del cotizador).
+  whatsapp: ["51956340446", "51982687680"],
+  // Teléfonos: escríbelos como quieres que se vean
+  telefonos: ["+51 956 340 446", "+51 982 687 680"],
+  // Correos: las cotizaciones por correo se envían a todos los de esta lista
+  correos:  ["erivan_alfaro@hotmail.com", "gabriel.16alfaro@gmail.com"],
+  // Redes sociales: nombre que se muestra + enlace
+  redes: [
+    { nombre:"Facebook",  url:"https://www.facebook.com/profile.php?id=100063027861602" },
+    { nombre:"Instagram", url:"https://www.instagram.com/" }
+  ],
+  direccion:"Ñustas 920",
+  moneda:   "S/ "
+};
+
+/* Precio por m² de cada trabajo.
+   Puedes poner un precio fijo (ej: 260) o un rango entre corchetes (ej: [75, 90]). */
+const TRABAJOS = {
+  techo:    { nombre:"Techo / tinglado",     precio:[75, 90], unidad:"m²" },
+  porton:   { nombre:"Portón",               precio:260, unidad:"m²" },
+  puerta:   { nombre:"Puerta metálica",      precio:300, unidad:"m²" },
+  ventana:  { nombre:"Ventana",              precio:220, unidad:"m²" },
+  reja:     { nombre:"Reja de protección",   precio:150, unidad:"m²" },
+  baranda:  { nombre:"Baranda",              precio:180, unidad:"m²" },
+  escalera: { nombre:"Escalera metálica",    precio:450, unidad:"m²" },
+  otro:     { nombre:"Otro / reparación",    precio:100, unidad:"m²" }
+};
+const EXTRAS = { pintura:0.10, instalacion:0.15, diseno:0.20 }; // % adicional
+
+/* ===================== Datos de contacto ===================== */
+const saludo = encodeURIComponent("Hola, quisiera información o cotización de una estructura.");
+const waLink = "https://wa.me/" + EMPRESA.whatsapp[0];
+waFloat.href = waLink + "?text=" + saludo;
+
+// Muestra "51956340446" como "+51 956 340 446"
+const verNumero = n => "+" + n.slice(0, 2) + " " + n.slice(2).replace(/(\d{3})(?=\d)/g, "$1 ");
+
+function llenarLista(contenedor, items) {
+  items.forEach(({ texto, href, externo }) => {
+    const a = document.createElement("a");
+    a.textContent = texto;
+    a.href = href;
+    if (externo) { a.target = "_blank"; a.rel = "noopener"; }
+    contenedor.appendChild(a);
+  });
+}
+llenarLista(waList, EMPRESA.whatsapp.map(n => ({ texto: verNumero(n), href: "https://wa.me/" + n + "?text=" + saludo, externo: true })));
+llenarLista(telList, EMPRESA.telefonos.map(t => ({ texto: t, href: "tel:" + t.replace(/\s/g, "") })));
+llenarLista(mailList, EMPRESA.correos.map(c => ({ texto: c, href: "mailto:" + c })));
+llenarLista(redesList, EMPRESA.redes.map(r => ({ texto: r.nombre, href: r.url, externo: true })));
+dirTxt.textContent = "📍 " + EMPRESA.direccion;
+year.textContent = new Date().getFullYear();
+
+/* ===================== Menú móvil ===================== */
+document.querySelectorAll("#menu a").forEach(a => a.onclick = () => menu.classList.remove("open"));
+
+/* ===================== Chispas de la portada ===================== */
+for (let i = 0; i < 28; i++) {
+  const s = document.createElement("span");
+  s.className = "spark";
+  s.style.left = (55 + Math.random() * 40) + "%";
+  s.style.top = (10 + Math.random() * 40) + "%";
+  s.style.setProperty("--dx", (Math.random() * 160 - 80) + "px");
+  s.style.animationDuration = (1.2 + Math.random() * 1.8) + "s";
+  s.style.animationDelay = (Math.random() * 3) + "s";
+  sparks.appendChild(s);
+}
+
+/* ===================== Galería ===================== */
+const iconoFoto = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 8"/></svg>';
+document.querySelectorAll(".work").forEach(w => {
+  const img = w.querySelector("img");
+  const ph = document.createElement("div");
+  ph.className = "ph";
+  ph.innerHTML = iconoFoto + "Agrega tu foto:<br><code>" + img.getAttribute("src") + "</code>";
+  w.prepend(ph);
+  const sinFoto = () => { w.classList.add("noimg"); img.style.display = "none"; };
+  img.onerror = sinFoto;
+  if (img.complete && img.naturalWidth === 0) sinFoto();
+  w.onclick = () => {
+    if (w.classList.contains("noimg")) return;
+    lbImg.src = img.src;
+    lbTxt.textContent = w.querySelector("strong").textContent;
+    lightbox.classList.add("open");
+  };
+});
+document.querySelectorAll(".filters button").forEach(b => b.onclick = () => {
+  document.querySelector(".filters .active").classList.remove("active");
+  b.classList.add("active");
+  const f = b.dataset.filter;
+  document.querySelectorAll(".work").forEach(w =>
+    w.classList.toggle("hide", f !== "todos" && w.dataset.cat !== f));
+});
+function closeLightbox(){ lightbox.classList.remove("open"); }
+lightbox.onclick = e => { if (e.target === lightbox) closeLightbox(); };
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeLightbox(); });
+
+/* ===================== Cotizador ===================== */
+Object.entries(TRABAJOS).forEach(([k, t]) => tipo.add(new Option(t.nombre, k)));
+const fmt = n => EMPRESA.moneda + Math.max(0, Math.round(n) || 0).toLocaleString("es");
+
+function calcular() {
+  const t = TRABAJOS[tipo.value];
+  const area = Math.max(0, +ancho.value) * Math.max(0, +alto.value);
+  const cant = Math.max(1, +cantidad.value || 1);
+  const factorMat = +material.value;
+  let extra = 0; const extrasSel = [];
+  for (const k in EXTRAS) if (document.getElementById(k).checked) {
+    extra += EXTRAS[k];
+    extrasSel.push(document.getElementById(k).parentElement.textContent.trim());
+  }
+  const [pMin, pMax = pMin] = [].concat(t.precio);   // acepta 260 o [75, 90]
+  const base = area * cant * factorMat * (1 + extra);
+  const tMin = base * pMin, tMax = base * pMax;
+  const total = Math.round(tMin) === Math.round(tMax) ? fmt(tMin) : fmt(tMin) + " – " + fmt(tMax);
+  precio.textContent = total;
+  rTipo.textContent = t.nombre + (cant > 1 ? " × " + cant : "");
+  rArea.textContent = (area * cant).toFixed(2) + " " + t.unidad;
+  rMat.textContent = material.options[material.selectedIndex].text;
+  rExtras.textContent = extrasSel.length ? extrasSel.join(", ") : "Ninguno";
+  return { t, area, cant, total, extrasSel };
+}
+quoteForm.addEventListener("input", calcular);
+calcular();
+
+function enviar(medio) {
+  if (!nombre.value.trim() || !telefono.value.trim()) {
+    alert("Por favor completa tu nombre y teléfono.");
+    (nombre.value.trim() ? telefono : nombre).focus();
+    return;
+  }
+  const r = calcular();
+  const texto =
+`Hola, quiero solicitar un presupuesto:
+• Nombre: ${nombre.value}
+• Teléfono: ${telefono.value}
+• Correo: ${correo.value || "-"}
+• Trabajo: ${r.t.nombre} (x${r.cant})
+• Medidas: ${ancho.value} x ${alto.value} m
+• Material: ${rMat.textContent}
+• Extras: ${rExtras.textContent}
+• Zona: ${ubicacion.value || "-"}
+• Detalle: ${detalle.value || "-"}
+• Estimado web: ${r.total}`;
+  if (medio === "whatsapp") {
+    window.open(waLink + "?text=" + encodeURIComponent(texto), "_blank");
+  } else {
+    location.href = "mailto:" + EMPRESA.correos.join(",") +
+      "?subject=" + encodeURIComponent("Solicitud de presupuesto - " + nombre.value) +
+      "&body=" + encodeURIComponent(texto);
+  }
+  msgOk.style.display = "block";
+  msgOk.textContent = "¡Gracias " + nombre.value.split(" ")[0] + "! Te responderemos a la brevedad.";
+}
+</script>
+</body>
+</html>
