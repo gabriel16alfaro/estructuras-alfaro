@@ -205,8 +205,8 @@
     <div class="grid-services">
       <div class="service">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12l10-8 10 8M4 10v10h16V10"/></svg></div>
-        <h3>Techos y tinglados</h3>
-        <p>Estructuras para techos, galpones, cocheras y tinglados con chapa o policarbonato.</p>
+        <h3>Techos y mezzanines</h3>
+        <p>Estructuras para techos, galpones y cocheras con chapa o policarbonato, y mezzanines metálicos a medida.</p>
       </div>
       <div class="service">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="1"/><circle cx="15" cy="12" r="1"/></svg></div>
@@ -257,7 +257,7 @@
       <button data-filter="otros">Otros</button>
     </div>
     <div class="gallery" id="gallery">
-      <figure class="work" data-cat="techos"><img src="fotos/techo-1.jpg" alt="Tinglado para cochera"><figcaption><span>Techos</span><strong>Tinglado para cochera</strong></figcaption></figure>
+      <figure class="work" data-cat="techos"><img src="fotos/techo-1.jpg" alt="Techo para cochera"><figcaption><span>Techos</span><strong>Techo para cochera</strong></figcaption></figure>
       <figure class="work" data-cat="techos"><img src="fotos/techo-2.jpg" alt="Estructura para galpón"><figcaption><span>Techos</span><strong>Estructura para galpón</strong></figcaption></figure>
       <figure class="work" data-cat="puertas"><img src="fotos/porton-1.jpg" alt="Portón corredizo"><figcaption><span>Puertas y portones</span><strong>Portón corredizo</strong></figcaption></figure>
       <figure class="work" data-cat="puertas"><img src="fotos/puerta-1.jpg" alt="Puerta de seguridad"><figcaption><span>Puertas y portones</span><strong>Puerta de seguridad</strong></figcaption></figure>
@@ -443,7 +443,8 @@ const EMPRESA =  {
 /* Precio por m² de cada trabajo.
    Puedes poner un precio fijo (ej: 260) o un rango entre corchetes (ej: [75, 90]). */
 const TRABAJOS = {
-  techo:    { nombre:"Techo / tinglado",     precio:[75, 90], unidad:"m²" },
+  techo:    { nombre:"Techo",                precio:[75, 90], unidad:"m²" },
+  mezzanine:{ nombre:"Mezzanine",            precio:[75, 90], unidad:"m²" },
   porton:   { nombre:"Portón",               precio:260, unidad:"m²" },
   puerta:   { nombre:"Puerta metálica",      precio:300, unidad:"m²" },
   ventana:  { nombre:"Ventana",              precio:220, unidad:"m²" },
